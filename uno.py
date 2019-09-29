@@ -108,8 +108,8 @@ if (input("Login? ") == "a"):
     username = input('Username: ')
     password = getpass.getpass('Password: ')
 else:
-    username = "0306252184"
-    password = "3rthmywp"
+    username = ""
+    password = ""
 
 client = baka.Client() #pybakalib.client.BakaClient(url)
 client.set_url(url)
