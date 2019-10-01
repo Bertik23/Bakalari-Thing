@@ -61,7 +61,7 @@ def rozvrh_XML_to_class(rozvrh):
 def get_next_hour(rozvrh):
     global zacatkyHodin
     global konceHodin
-    timeNow = gmtime(time()+7*86400)
+    timeNow = gmtime(time())
     if timeNow[6] >= 5 or (timeNow[6] == 4 and timeNow[3] > zacatkyHodin[rozvrh[-1][-1].caption][0] and timeNow[4] > zacatkyHodin[rozvrh[-1][-1].caption][1]):
         return rozvrh_XML_to_class(et.fromstring(client.get_rozvrh(get_pmd(next_week = True))))[0][0][0]
     for hodina in rozvrh[timeNow[6]]:
@@ -118,8 +118,8 @@ if (input("Login? ") == "a"):
     username = input('Username: ')
     password = getpass.getpass('Password: ')
 else:
-    username = "0306252184"
-    password = "3rthmywp"
+    username = ""
+    password = ""
 
 client = baka.Client() #pybakalib.client.BakaClient(url)
 client.set_url(url)
@@ -127,7 +127,7 @@ client.login(username, password)
 
 today = gmtime(time())[6]
 print(time)
-rozvrhTentoTydenXML = client.get_rozvrh(get_pmd(next_week = True)) #get_resource({"pm": "rozvrh", "pdm": time})
+rozvrhTentoTydenXML = client.get_rozvrh(get_pmd()) #get_resource({"pm": "rozvrh", "pdm": time})
 print(rozvrhTentoTydenXML)
 rozvrhAsi = et.fromstring(rozvrhTentoTydenXML)
 #print(type(rozvrhAsi), type(rozvrhTentoTydenXML))
