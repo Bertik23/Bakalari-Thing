@@ -37,6 +37,12 @@ def rozvrh_XML_to_class(rozvrh):
             rozvrhTentoTyden[dny.index(den)].append(Hodina(hodina))
     deleteFirstHour = False
     isZerothHour = True
+    for den in rozvrhTentoTyden:
+        for hodina in reversed(den):
+            if hodina.__str__() == "Volná hodina":
+                den.pop(den.index(hodina))
+            else:
+                break
     try:
         for i in range(2):
             for den in rozvrhTentoTyden:
@@ -54,12 +60,16 @@ def rozvrh_XML_to_class(rozvrh):
 
 def get_next_hour(rozvrh):
     global zacatkyHodin
-    timeNow = gmtime(time())
-    if timeNow[6] >= 5 or (timeNow[6] == 4 and timeNow[4] > zacatkyHodin[rozvrh[-1][-1].caption][0] and timeNow[5] > zacatkyHodin[rozvrh[-1][-1].caption][1]):
+    global konceHodin
+    timeNow = gmtime(time()+7*86400)
+    if timeNow[6] >= 5 or (timeNow[6] == 4 and timeNow[3] > zacatkyHodin[rozvrh[-1][-1].caption][0] and timeNow[4] > zacatkyHodin[rozvrh[-1][-1].caption][1]):
         return rozvrh_XML_to_class(et.fromstring(client.get_rozvrh(get_pmd(next_week = True))))[0][0][0]
     for hodina in rozvrh[timeNow[6]]:
-        if timeNow[4] > zacatkyHodin[rozvrh[-1][-1].caption][0] and timeNow[5] > zacatkyHodin[rozvrh[-1][-1].caption][1]:
-            return rozvrh[timeNow[6]][rozvrh[timeNow[6]].index(hodina)+1]
+        if timeNow[3] > zacatkyHodin[hodina.caption][0] and timeNow[4] > zacatkyHodin[hodina.caption][1] and timeNow[3] < konceHodin[hodina.caption][0] and timeNow[4] < konceHodin[hodina.caption][1]:
+            if rozvrh[timeNow[6]].index(hodina)+1 <= len(rozvrh[timeNow[6]]):
+                return rozvrh[timeNow[6]][rozvrh[timeNow[6]].index(hodina)+1]
+        else:
+            return rozvrh[timeNow[6]+1][0]
 
 
 class GetOutOfLoop(Exception):
@@ -108,8 +118,8 @@ if (input("Login? ") == "a"):
     username = input('Username: ')
     password = getpass.getpass('Password: ')
 else:
-    username = ""
-    password = ""
+    username = "0306252184"
+    password = "3rthmywp"
 
 client = baka.Client() #pybakalib.client.BakaClient(url)
 client.set_url(url)
@@ -117,13 +127,15 @@ client.login(username, password)
 
 today = gmtime(time())[6]
 print(time)
-rozvrhTentoTydenXML = client.get_rozvrh(get_pmd()) #get_resource({"pm": "rozvrh", "pdm": time})
+rozvrhTentoTydenXML = client.get_rozvrh(get_pmd(next_week = True)) #get_resource({"pm": "rozvrh", "pdm": time})
 print(rozvrhTentoTydenXML)
 rozvrhAsi = et.fromstring(rozvrhTentoTydenXML)
 #print(type(rozvrhAsi), type(rozvrhTentoTydenXML))
 zacatkyHodin = {}
+konceHodin = {}
 for hodina in rozvrhAsi.find("rozvrh").find("hodiny").findall("hod"):
     zacatkyHodin[hodina.find("caption").text] = [int(i) for i in hodina.find("begintime").text.split(":")]
+    konceHodin[hodina.find("caption").text] = [int(i) for i in hodina.find("endtime").text.split(":")]
 print(zacatkyHodin)
 
 
@@ -138,9 +150,18 @@ except:
 
 print(nextHourTxt)
 rozvrhTentoTydenSTR = [[hodina.__repr__() for hodina in den] for den in rozvrh]
+
 #GUI
-table = [["Jedna", "Dva","Tři"],["Čtyři"],["","","Pět","Šest"]]
-layout = [[sg.Text("Ahoj")],[sg.Table(rozvrhTentoTydenSTR, headings=["První","Druhá","Třetí","Čtvrtá","Pátá","Šestá","Sedmá"])]]
+maxHours = 0
+for den in rozvrhTentoTydenSTR:
+    if len(den) > maxHours:
+        maxHours = len(den)
+hourHeadings = ["Nultá","První","Druhá","Třetí","Čtvrtá","Pátá","Šestá","Sedmá","Osmá","Devátá","Desátá"]
+if not isZerothHour:
+    firstHeading = 1
+else:
+    firstHeading = 0
+layout = [[sg.Text(nextHourTxt)],[sg.Table(rozvrhTentoTydenSTR, headings=hourHeadings[firstHeading:maxHours+1])]]
 window = sg.Window("Rozvrh?", layout=layout, size=(500,500), resizable=True)
 while True:
     event, values = window.read()
