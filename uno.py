@@ -1,3 +1,6 @@
+import sys
+sys.path.append("D:\Python\pybakalib")
+
 import pybakalib
 import bakalariHandeling as baka
 import getpass
@@ -113,9 +116,9 @@ class Hodina:
     def table_look(self):
         pass
 
-url = "https://bakalari.gymso.cz"
+url = "https://bakalari.gymso.cz/next"
 if (input("Login? ") == "a"):
-    username = input('Username: ')
+    username = "0306252184"#input('Username: ')
     password = getpass.getpass('Password: ')
 else:
     username = ""
