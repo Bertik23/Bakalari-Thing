@@ -29,7 +29,14 @@ function login(){
                 redirect("timetable")
             }
             else if (myJson.response == "error"){
-                document.getElementById("WrongLogin").style = "display: block;"
+                if (myJson.type == "WrongLogin"){
+                    document.getElementById("WrongLogin").style = "display: block;"
+                }
+                else if (myJson.type == "NoConnection"){
+                    var errorDiv = document.getElementById("error")
+                    errorDiv.style = "display: block;"
+                    errorDiv.innerHTML = myJson.message;
+                }
             }
         })
 }

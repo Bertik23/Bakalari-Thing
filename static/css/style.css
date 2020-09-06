@@ -24,11 +24,6 @@ table {
     color: white
   }
 
-/*
-table, th, td {
-    border: 1px solid black;
-    color: #000;
-  }*/
 
 table.hour {
     background-color: #505050;
@@ -167,6 +162,7 @@ table td, table th {
 	background: transparent;
 }
 
+
 .center button::before{
 	content: '';
 
@@ -205,4 +201,56 @@ table td, table th {
 	color: var(--grayLight);
 	border-radius: 1px;
 	margin-top: 15px;
+}
+
+.center a{
+  text-align: center;
+	font-family: consolas;
+	color: var(--white);
+	font-size: 16px;
+	border-radius: 3px;
+	transition-duration: .25s;
+
+	width: 47px;
+
+	height: 35px;
+
+	margin-top: 10px;
+	border: 2px var(--grayLight) solid;
+	padding: 5px;
+
+	background: transparent;
+}
+
+
+.center a::before{
+	content: '';
+
+	margin-top: -7px;
+  padding: none;
+  margin-left: 1px;
+
+	background: linear-gradient(to right, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
+	position: absolute;
+	z-index: -1;
+	display: block;
+	width: inherit;
+	height: 0px;
+  transition: 0.4s;
+  border-radius: 3px;
+}
+
+.center a:hover::before{
+	content: '';
+
+
+
+	width: inherit;
+	height: 32px;
+	transition: 0.4s;
+}
+
+.center a:hover{
+	cursor: pointer;
+	color: var(--grayDark);
 }

@@ -32,7 +32,7 @@ class Client:
         self.timetable = Timetable(t)
         self.timetable.pairThings()
     def login(self, username, password):
-        response = requests.post("https://bakalari.gymso.cz/api/login",data={"client_id":"ANDR","grant_type":"password","username":username,"password":password},headers={"Content-Type": "application/x-www-form-urlencoded"})
+        response = requests.post(f"{self.schoolURL}api/login",data={"client_id":"ANDR","grant_type":"password","username":username,"password":password},headers={"Content-Type": "application/x-www-form-urlencoded"})
         try:
             access_token = response.json()["access_token"]
             refresh_token = response.json()["refresh_token"]
@@ -41,7 +41,7 @@ class Client:
         return access_token, refresh_token
 
     def get_resource(self,url,method="get",**kwargs):
-        return requests.request(method, schoolURL+url,**kwargs, headers={"Authorization" : f"Bearer {self.access_token}"})
+        return requests.request(method, self.schoolURL+url,**kwargs, headers={"Authorization" : f"Bearer {self.access_token}"})
 
 class Timetable:
     def __init__(self, timetable):

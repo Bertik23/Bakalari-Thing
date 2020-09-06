@@ -5,7 +5,7 @@ import pprint
 import json
 from prettytable import PrettyTable
 from dearpygui.dearpygui import *
-from flask import Flask, render_template, Response, session
+from flask import Flask, render_template, Response, session, abort
 from flask import jsonify
 from flask import request
 import webview
@@ -20,6 +20,7 @@ schoolURL = "https://bakalari.gymso.cz/"
 
 app = Flask("Bakalari Thing")
 app.secret_key = b"_randomThingo"
+
 
 clients = {}
 
@@ -39,7 +40,8 @@ def login():
         return jsonify({"response":"success"})
     except exceptions.WrongLogin:
         return jsonify({"response":"error","type":"WrongLogin"})
-    #return render_template('test.html')
+    except requests.exceptions.ConnectionError:
+        return jsonify({"response":"error","type":"NoConnection","message":"The server has no internet connection."})
 
 @app.route("/timetable")
 def timetable():
@@ -48,9 +50,24 @@ def timetable():
         clients[session["client"]].get_timetable(now.isoformat()[:10])
         return render_template('timetable.html', isHeader=True)
     except (AttributeError, KeyError):
-        statusCode = Response(status=401)
-        return statusCode
+        #statusCode = Response(status=401)
+        #return statusCode
+        abort(401)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return render_template('errors/404.html'), 404
+
+app.register_error_handler(404, page_not_found)
+
+@app.errorhandler(401)
+def unauthorized(e):
+    # note that we set the 404 status explicitly
+    #return render_template('errors/401.html'), 401
+    return Response(render_template("errors/401.html"), 401, {'WWW-Authenticate':'NotBasic realm="Login Required"'})
+
+app.register_error_handler(401, unauthorized)
 
 
 @app.route("/loadNewTimetable")
