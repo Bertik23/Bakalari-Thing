@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="cz">
+<meta charset="UTF-8">
+<head>
+    <title>{% block title %}{% endblock %} - Bakalari Thing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<body>
+    {% if isHeader %}
+    <div class="header"><a href="/" class="headerA"><h1><img src="{{ url_for('static', filename='favicon.ico') }}" class="headerIcon"><span class="logoBakalari">Bakalari</span> <span class="logoThing">Thing</span></h1></a>
+    <span>About</span>
+    </div>
+    {% endif %}
+    {% block navigation %} {% endblock %}
+    {% block body %} {% endblock %}
+</body>
+</html>

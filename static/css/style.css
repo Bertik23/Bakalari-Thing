@@ -1,0 +1,208 @@
+:root{
+  --background: #121212;
+  --grayDark: #222222;
+  --grayLight: #272727;
+  --white: #EFEFEF;
+  --whiteGradA: #AAAAAA;
+  --whiteGradB: #BBBBBB;
+  --whiteGradC: #CCCCCC;
+  --errorRed: #FA1010;
+  --errorDarkRed: #661111;
+}
+
+
+body {
+  background-color: var(--background);
+  color: white;
+  margin: 0px;
+  padding: 0px;
+}
+
+table {
+    border-collapse: collapse;
+    border: 0px solid white;
+    color: white
+  }
+
+/*
+table, th, td {
+    border: 1px solid black;
+    color: #000;
+  }*/
+
+table.hour {
+    background-color: #505050;
+    color: white;
+}
+
+.error {
+  font-family: consolas;
+	color: var(--errorRed);
+	font-size: 16px;
+  border-radius: 3px;
+  text-align: center;
+
+	width: 95%;
+
+	height: 20px;
+
+	margin-top: 10px;
+	border: 2px var(--errorRed) solid;
+  padding: 5px;
+
+	background: var(--errorDarkRed);
+}
+
+.header {
+  background-color: #505050;
+  margin: 0px;
+  padding: 1px 40px;
+  line-height: 12px;
+  display: inline-flex;
+  position: relative;
+}
+
+.header a{
+  text-decoration: none;
+  float: left;
+  display: block;
+}
+
+.header span{
+  text-decoration: none;
+  float: left;
+  display: block;
+}
+
+.headerIcon {
+  height: 30px;
+  /*padding: 11px;*/
+}
+
+.logoBakalari{
+  color: red;
+}
+
+.logoThing{
+  color: green;
+}
+
+table.withoutOuterBorder {
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+table td, table th {
+    border: 1px solid white;
+    padding: 2px;
+}
+
+.center{
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	position: absolute;
+
+	
+	padding: 15px;
+	padding-top: 5px;
+	border-radius: 5px;
+
+	margin: none;
+
+	background: var(--grayDark);	
+	border: 4px var(--grayLight) solid;
+
+	-webkit-box-shadow: 10px 10px 64px -26px rgba(0,0,0,0.75);
+	-moz-box-shadow: 10px 10px 64px -26px rgba(0,0,0,0.75);
+	box-shadow: 10px 10px 64px -26px rgba(0,0,0,0.75);
+
+	font-family: consolas;
+	color: var(--white);
+
+
+}
+
+.center h1{
+	font-size: 35px;
+	text-align: center;
+}
+
+.center label{
+	font-size: 18px;
+	margin: none;
+	padding: none;
+}
+
+.center input{
+	background: var(--grayDark);	
+	border: 2px var(--grayLight) solid;
+	width: 280px;
+	
+	border-radius: 3px;
+
+	padding: 3px;
+	margin: none;
+
+	font-family: consolas;
+	color: var(--white);
+	font-size: 15px;
+}
+
+.center button{
+	font-family: consolas;
+	color: var(--white);
+	font-size: 16px;
+	border-radius: 3px;
+	transition-duration: .25s;
+
+	width: 100%;
+
+	height: 35px;
+
+	margin-top: 10px;
+	border: 2px var(--grayLight) solid;
+	padding: 5px;
+
+	background: transparent;
+}
+
+.center button::before{
+	content: '';
+
+	margin: -8px;
+  padding: none;
+  margin-left: -6px;
+
+	background: linear-gradient(to right, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
+	position: absolute;
+	z-index: -1;
+	display: block;
+	width: 290px;
+	height: 0px;
+  transition: 0.4s;
+  border-radius: 3px;
+}
+
+.center button:hover::before{
+	content: '';
+
+
+
+	width: 288px;
+	height: 35px;
+	transition: 0.4s;
+}
+
+.center button:hover{
+	cursor: pointer;
+	color: var(--grayDark);
+}
+
+.center hr{
+	width: 90;
+	border: 1px solid var(--grayLight);
+	color: var(--grayLight);
+	border-radius: 1px;
+	margin-top: 15px;
+}

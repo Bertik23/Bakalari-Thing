@@ -1,0 +1,14 @@
+{% extends "nonloggedinLayout.html" %}
+{% block title%}Login{% endblock %}
+{% block body %}
+    <div class="center">
+    <h1>Bakalari Thing</h1>
+    <div class="error" id="WrongLogin" style="display: none;">Wrong username or password.</div>
+    <label for="username">Username</label><br>
+    <input type="text" id="username"><br>
+    <label for="password">Password</label><br>
+    <input type="password" id="password">
+    <hr>
+    <button type="submit" onclick="login()">Login</button>
+    </div>
+{% endblock %}
