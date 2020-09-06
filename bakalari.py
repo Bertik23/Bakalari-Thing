@@ -17,7 +17,7 @@ class Client:
         self.marks = json.loads(self.get_resource("api/3/marks").text)
 
     def htmlMarks(self):
-        tableHtml = ["<h1>Marks<h1><table>"]
+        tableHtml = ["<table>"]
         for subject in self.marks["Subjects"]:
             tableHtml.extend(["<tr><td><table class=withoutOuterBorder><tr><td>",subject["Subject"]["Name"],"</td></tr><tr><td>Průměr:",subject["AverageText"] ,"</td></tr></table></td>"])
             for mark in subject["Marks"]:
@@ -102,7 +102,7 @@ class Timetable:
                 row[int(h["Hour"]["Caption"])].extend([h["Subject"]["Name"] if h["Subject"] is not None else "", h["Teacher"]["Name"] if h["Teacher"] is not None else "", h["Room"]["Abbrev"] if h["Room"] is not None else ""])
             #print(row)
 
-            tableHtml.append("<tr>")
+            tableHtml.append(f'<tr class="day{day[0]}">')
             for r in row:
 
                 tableHtml.append("<td>")
@@ -127,6 +127,8 @@ class Timetable:
                             #tableHtml.append("")
                 except Exception as e:
                     tableHtml.pop()
+                    tableHtml.pop()
+                    tableHtml.append('<td class="day">')
                     tableHtml.append(r)
                     #print(e)
 

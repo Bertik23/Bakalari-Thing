@@ -46,3 +46,13 @@ Date.prototype.toDateInputValue = (function() {
     local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
     return local.toJSON().slice(0,10);
 });
+
+function loadMarks(){
+    fetch("/getMarks")
+        .then((response) =>{
+            return response.json()
+        })
+        .then((myJson) => {
+            document.getElementById("marks").innerHTML = myJson.result;
+        })
+}

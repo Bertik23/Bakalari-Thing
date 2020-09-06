@@ -54,6 +54,20 @@ def timetable():
         #return statusCode
         abort(401)
 
+@app.route("/marks")
+def marks():
+    try:
+        clients[session["client"]].get_marks()
+        return render_template('marks.html', isHeader=True)
+    except (AttributeError, KeyError):
+        #statusCode = Response(status=401)
+        #return statusCode
+        abort(401)
+
+@app.route("/test")
+def test():
+    return render_template('test.html')
+
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
@@ -75,6 +89,11 @@ def loadNewTimetable():
     date = request.args.get('date')
     clients[session["client"]].get_timetable(date)
     return jsonify({"result": clients[session["client"]].timetable.htmlTable()})
+
+@app.route("/getMarks")
+def getMarks():
+    htmlMarks = clients[session["client"]].htmlMarks()
+    return jsonify({"result": htmlMarks})
 
 if __name__ == "__main__":
     app.run()#host='0.0.0.0', port=80)

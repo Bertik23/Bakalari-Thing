@@ -9,9 +9,19 @@
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 <body>
     {% if isHeader %}
-    <div class="header"><a href="/" class="headerA"><h1><img src="{{ url_for('static', filename='favicon.ico') }}" class="headerIcon"><span class="logoBakalari">Bakalari</span> <span class="logoThing">Thing</span></h1></a>
-    <span>About</span>
-    </div>
+    <ul class="topnav">
+        <li class="logo">
+            <a href="/">
+                <h1>
+                    <img src="{{ url_for('static', filename='favicon.ico') }}" class="headerIcon">
+                    <span class="logoBakalari">Bakalari</span> <span class="logoThing">Thing</span>
+                </h1>
+            </a>
+        </li>
+        <li class="right">
+            <a href="/about">About</a>
+        </li>
+    </ul>
     {% endif %}
     <div class="error" style="display: none;" id="error"></div>
     {% block navigation %} {% endblock %}

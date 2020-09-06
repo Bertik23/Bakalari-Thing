@@ -48,25 +48,76 @@ table.hour {
 	background: var(--errorDarkRed);
 }
 
-.header {
-  background-color: #505050;
-  margin: 0px;
-  padding: 1px 40px;
-  line-height: 12px;
-  display: inline-flex;
+ul.topnav {
+  font-family: consolas;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--grayDark);
+  border: 4px var(--grayLight) solid;
+  margin: 10px;
+	border-radius: 5px;
+}
+
+ul.topnav li {float: left;}
+
+ul.topnav li a {
+  display: block;
+  color: var(--white);
+  text-align: center;
+  text-decoration: none;
+  padding: 17px 10px;
   position: relative;
+  z-index: 1;
 }
 
-.header a{
-  text-decoration: none;
-  float: left;
-  display: block;
+ul.topnav li.logo a {
+    padding: 9px 10px
 }
 
-.header span{
-  text-decoration: none;
-  float: left;
-  display: block;
+ul.topnav li a:hover{
+  transition: color .35 ease-in-out;
+  color: var(--grayLight);
+}
+
+ul.topnav li a:before {
+  content: "";
+  position: absolute;
+  transition: opacity .35s ease-in-out;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+}
+ul.topnav li a:hover:before {
+  opacity: 0;
+}
+ul.topnav li a:after {
+  content: ""; opacity: 0;
+  transition: opacity .35s ease-in-out;
+  position: absolute;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+  background: linear-gradient(to bottom, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
+}
+ul.topnav li a:hover:after {
+  opacity: 1;
+}
+
+/*ul.topnav li a:hover:not(.active) {
+  background: linear-gradient(to bottom, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
+  transition: 0.4s;
+}*/
+
+ul.topnav li a.active {background-color: #4CAF50;}
+
+ul.topnav li.right {float: right;}
+
+ul.topnav h1 {
+    line-height: 30px;
+    margin: 0px;
+}
+
+@media screen and (max-width: 600px) {
+  ul.topnav li.right, 
+  ul.topnav li {float: none;}
 }
 
 .headerIcon {
@@ -149,7 +200,8 @@ table td, table th {
 	color: var(--white);
 	font-size: 16px;
 	border-radius: 3px;
-	transition-duration: .25s;
+  transition-duration: .25s;
+  position: relative;
 
 	width: 100%;
 
@@ -159,40 +211,37 @@ table td, table th {
 	border: 2px var(--grayLight) solid;
 	padding: 5px;
 
-	background: transparent;
+  background: transparent;
+  z-index: 10;
 }
 
-
-.center button::before{
-	content: '';
-
-	margin: -8px;
-  padding: none;
-  margin-left: -6px;
-
-	background: linear-gradient(to right, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
-	position: absolute;
-	z-index: -1;
-	display: block;
-	width: 290px;
-	height: 0px;
-  transition: 0.4s;
-  border-radius: 3px;
-}
-
-.center button:hover::before{
-	content: '';
-
-
-
-	width: 288px;
-	height: 35px;
-	transition: 0.4s;
-}
 
 .center button:hover{
-	cursor: pointer;
-	color: var(--grayDark);
+  transition: color .35 ease-in-out;
+  color: var(--grayLight);
+  cursor: pointer;
+}
+
+.center button:before {
+  content: "";
+  position: absolute;
+  transition: opacity .35s ease-in-out;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+  border-radius: 3px;
+}
+.center button:hover:before {
+  opacity: 0;
+}
+.center button:after {
+  content: ""; opacity: 0;
+  transition: opacity .35s ease-in-out;
+  position: absolute;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+  background: linear-gradient(to bottom, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
+  border-radius: 3px;
+}
+.center button:hover:after {
+  opacity: 1;
 }
 
 .center hr{
@@ -204,14 +253,15 @@ table td, table th {
 }
 
 .center a{
-  text-align: center;
 	font-family: consolas;
 	color: var(--white);
 	font-size: 16px;
 	border-radius: 3px;
-	transition-duration: .25s;
+  transition-duration: .25s;
+  position: relative;
+  text-decoration: none;
 
-	width: 47px;
+	width: 100%;
 
 	height: 35px;
 
@@ -219,38 +269,35 @@ table td, table th {
 	border: 2px var(--grayLight) solid;
 	padding: 5px;
 
-	background: transparent;
+  background: transparent;
+  z-index: 10;
 }
 
-
-.center a::before{
-	content: '';
-
-	margin-top: -7px;
-  padding: none;
-  margin-left: 1px;
-
-	background: linear-gradient(to right, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
-	position: absolute;
-	z-index: -1;
-	display: block;
-	width: inherit;
-	height: 0px;
-  transition: 0.4s;
-  border-radius: 3px;
-}
-
-.center a:hover::before{
-	content: '';
-
-
-
-	width: inherit;
-	height: 32px;
-	transition: 0.4s;
-}
 
 .center a:hover{
-	cursor: pointer;
-	color: var(--grayDark);
+  transition: color .35 ease-in-out;
+  color: var(--grayLight);
+  cursor: pointer;
+}
+
+.center a:before {
+  content: "";
+  position: absolute;
+  transition: opacity .35s ease-in-out;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+  border-radius: 3px;
+}
+.center a:hover:before {
+  opacity: 0;
+}
+.center a:after {
+  content: ""; opacity: 0;
+  transition: opacity .35s ease-in-out;
+  position: absolute;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+  background: linear-gradient(to bottom, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
+  border-radius: 3px;
+}
+.center a:hover:after {
+  opacity: 1;
 }
