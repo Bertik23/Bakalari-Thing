@@ -3,12 +3,9 @@ import getpass
 import exceptions
 import pprint
 import json
-from prettytable import PrettyTable
-from dearpygui.dearpygui import *
 from flask import Flask, render_template, Response, session, abort
 from flask import jsonify
 from flask import request
-import webview
 from datetime import datetime
 import random
 import bakalari
