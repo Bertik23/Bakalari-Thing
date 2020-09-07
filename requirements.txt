@@ -11,3 +11,5 @@ PySimpleGUI == 4.29.0
 # D:\Python\Bakalari-Thing\duo.py: 1
 # D:\Python\Bakalari-Thing\main.py: 1
 requests == 2.23.0
+
+gunicorn
