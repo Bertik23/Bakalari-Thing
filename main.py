@@ -68,6 +68,11 @@ def marks():
 def test():
     return render_template('test.html')
 
+
+@app.route("/about")
+def about():
+    return render_template('about.html', isHeader=True)
+
 @app.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
@@ -96,4 +101,4 @@ def getMarks():
     return jsonify({"result": htmlMarks})
 
 if __name__ == "__main__":
-    app.run()#host='0.0.0.0', port=80)
+    app.run()

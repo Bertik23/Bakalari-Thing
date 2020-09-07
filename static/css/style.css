@@ -1,5 +1,6 @@
 :root{
   --background: #121212;
+  --grayDarkerDark: #1D1D1D;
   --grayDark: #222222;
   --grayLight: #272727;
   --white: #EFEFEF;
@@ -8,26 +9,83 @@
   --whiteGradC: #CCCCCC;
   --errorRed: #FA1010;
   --errorDarkRed: #661111;
+  --errorDarkerDarkRed: #610A0A;
+  --bakalariGreen: green;
+  --bakalariRed: red;
 }
 
+a {
+  color: var(--bakalariGreen);
+  text-decoration: none;
+}
 
 body {
   background-color: var(--background);
-  color: white;
+  color: var(--white);
   margin: 0px;
   padding: 0px;
 }
 
-table {
-    border-collapse: collapse;
-    border: 0px solid white;
-    color: white
-  }
+input{
+  font-family: consolas;
+	background: var(--grayDark);	
+	border: 2px var(--grayLight) solid;
+	
+	border-radius: 3px;
+
+	padding: 3px;
+	margin: none;
+
+	font-family: consolas;
+	color: var(--white);
+	font-size: 15px;
+}
+
+button{
+	font-family: consolas;
+	color: var(--white);
+	font-size: 16px;
+	border-radius: 3px;
+  transition-duration: .25s;
+  position: relative;
+
+	height: 35px;
+
+	margin-top: 10px;
+	border: 2px var(--grayLight) solid;
+	padding: 5px;
+
+  background: var(--grayDark);
+  z-index: 10;
+}
 
 
-table.hour {
-    background-color: #505050;
-    color: white;
+button:hover{
+  transition: color .35 ease-in-out;
+  color: var(--grayLight);
+  cursor: pointer;
+}
+
+button:before {
+  content: "";
+  position: absolute;
+  transition: opacity .35s ease-in-out;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+  border-radius: 3px;
+}
+button:hover:before {
+  opacity: 0;
+}
+button:after {
+  content: ""; opacity: 0;
+  transition: opacity .35s ease-in-out;
+  position: absolute;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+  background: linear-gradient(to bottom, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
+  border-radius: 3px;
+}
+button:hover:after {
+  opacity: 1;
 }
 
 .error {
@@ -51,7 +109,6 @@ table.hour {
 ul.topnav {
   font-family: consolas;
   list-style-type: none;
-  margin: 0;
   padding: 0;
   overflow: hidden;
   background-color: var(--grayDark);
@@ -101,13 +158,6 @@ ul.topnav li a:hover:after {
   opacity: 1;
 }
 
-/*ul.topnav li a:hover:not(.active) {
-  background: linear-gradient(to bottom, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
-  transition: 0.4s;
-}*/
-
-ul.topnav li a.active {background-color: #4CAF50;}
-
 ul.topnav li.right {float: right;}
 
 ul.topnav h1 {
@@ -120,17 +170,98 @@ ul.topnav h1 {
   ul.topnav li {float: none;}
 }
 
+ul.sidenav {
+  list-style-type: none;
+  padding: 0;
+  width: 15%;
+  position: sticky;
+  float: left;
+  overflow: auto;
+  z-index: 0;
+
+  font-family: consolas;
+  overflow: hidden;
+  background-color: var(--grayDark);
+  border: 4px var(--grayLight) solid;
+  margin: 10px;
+	border-radius: 5px;
+}
+
+ul.sidenav li a {
+  display: block;
+  color: var(--white);
+  text-align: center;
+  text-decoration: none;
+  padding: 17px 10px;
+  position: relative;
+  z-index: 1;
+}
+
+ul.sidenav li a:hover{
+  transition: color .35 ease-in-out;
+  color: var(--grayLight);
+  z-index: 10;
+}
+
+ul.sidenav li a:before {
+  content: "";
+  position: absolute;
+  transition: opacity .35s ease-in-out;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+}
+ul.sidenav li a:hover:before {
+  opacity: 0;
+}
+ul.sidenav li a:after {
+  content: ""; opacity: 0;
+  transition: opacity .35s ease-in-out;
+  position: absolute;
+  top:0; left: 0; right: 0; bottom: 0; z-index:-1;
+  background: linear-gradient(to bottom, var(--whiteGradA), var(--whiteGradB), var(--whiteGradC));
+}
+ul.sidenav li a:hover:after {
+  opacity: 1;
+}
+
+div.content {
+  margin-left: 16%;
+  padding: 1px 16px;
+}
+
+@media screen and (max-width: 900px) {
+  ul.sidenav {
+    width: 95%;
+    margin-right: 5%;
+    height: auto;
+    position: relative;
+  }
+  
+  ul.sidenav li a {
+    float: left;
+    padding: 15px;
+  }
+  
+  div.content {margin-left: 0;}
+}
+
+@media screen and (max-width: 600px) {
+  ul.sidenav li a {
+    text-align: center;
+    float: none;
+  }
+}
+
 .headerIcon {
   height: 30px;
   /*padding: 11px;*/
 }
 
 .logoBakalari{
-  color: red;
+  color: var(--bakalariRed);
 }
 
 .logoThing{
-  color: green;
+  color: var(--bakalariGreen);
 }
 
 table.withoutOuterBorder {
@@ -138,9 +269,50 @@ table.withoutOuterBorder {
     border-style: hidden;
 }
 
-table td, table th {
-    border: 1px solid white;
-    padding: 2px;
+table {	
+  /*border-collapse: collapse;*/
+	padding: 5px;
+  border-radius: 5px;
+
+	margin: none;
+
+	background: var(--grayDark);	
+	border: 4px solid var(--grayLight);
+
+	/*-webkit-box-shadow: 10px 10px 64px -26px rgba(0,0,0,0.75);
+	-moz-box-shadow: 10px 10px 64px -26px rgba(0,0,0,0.75);
+	box-shadow: 10px 10px 64px -26px rgba(0,0,0,0.75);*/
+
+	font-family: consolas;
+	color: var(--white);
+}
+
+table td{
+  border-collapse: collapse;
+  background: var(--grayDark);	
+  border: 4px solid var(--grayLight);
+  border-radius: 5px;
+}
+
+table tr.day1 td, table tr.day3 td, table tr.day5 td{
+  background-color: var(--grayDarkerDark);
+}
+
+/*table.hour {
+  background-color: #505050;
+  color: white;
+}*/
+
+/*table {
+    border-collapse: collapse;
+    border: 0px solid white;
+    color: white
+  }*/
+
+.indexLinks{
+  bottom: 3px;
+  left: 3px;
+  position: absolute;
 }
 
 .center{
@@ -165,8 +337,6 @@ table td, table th {
 
 	font-family: consolas;
 	color: var(--white);
-
-
 }
 
 .center h1{

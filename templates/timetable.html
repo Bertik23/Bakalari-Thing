@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Timetable{% endblock %}
 {% block body %}
+<div class="content">
     <input type="date" id="timetableDate"><button onclick="loadNewTimetable()">Load</button>
     <script>document.getElementById('timetableDate').value = new Date().toDateInputValue();</script>
     <div id="timetable">
     </div>
     <script>loadNewTimetable()</script>
+</div>
 {% endblock %}
