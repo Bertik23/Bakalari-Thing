@@ -1,6 +1,7 @@
 import json
 import requests
 import exceptions
+import datetime
 
 def deleteDuplicates(l):
     l2 = []
@@ -26,6 +27,26 @@ class Client:
         tableHtml.append("</table>")
 
         return "".join(tableHtml)
+
+    def get_substitutions(self):
+        substitutions = json.loads(self.get_resource("api/3/substitutions").text)
+
+        self.substitutions = []
+
+        for substitution in substitutions["Changes"]:
+            self.substitutions.append([datetime.date.fromisoformat(substitution["Day"][:10]).weekday()+1, substitution["Hours"], substitution["Description"]])
+
+    def substitutionsHtml(self):
+        subsHtml = "<table>"
+
+        for i in self.substitutions:
+            subsHtml += "<tr><td>"
+            subsHtml += "</td><td>".join(map(str,i))
+            subsHtml += "</td></tr>"
+
+        subsHtml += "</table>"
+
+        return subsHtml
 
     def get_timetable(self,date):
         t = json.loads(self.get_resource("api/3/timetable/actual",params={"date":date}).text)
