@@ -56,3 +56,13 @@ function loadMarks(){
             document.getElementById("marks").innerHTML = myJson.result;
         })
 }
+
+function getRecievedMessages(){
+    fetch("/getRecievedMessages")
+        .then((response) => {
+            return response.json()
+        })
+        .then((myJson) => {
+            document.getElementById("messages").innerHTML. myJson.result;
+        })
+}

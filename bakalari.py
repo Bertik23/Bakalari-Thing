@@ -2,6 +2,7 @@ import json
 import requests
 import exceptions
 import datetime
+import pprint
 
 def deleteDuplicates(l):
     l2 = []
@@ -27,6 +28,12 @@ class Client:
         tableHtml.append("</table>")
 
         return "".join(tableHtml)
+
+    def get_recievedMessages(self):
+        self.recievedMessages = []
+        messages = json.loads(client.get_resource("api/3/komens/messages/received", method="post").text)["Messages"]
+        for m in messages:
+            self.recievedMessages.append(Message(m))
 
     def get_substitutions(self):
         substitutions = json.loads(self.get_resource("api/3/substitutions").text)
@@ -161,3 +168,23 @@ class Timetable:
 
         html = "".join(map(str,tableHtml))
         return html
+
+class Message:
+    def __init__(self, message):
+        self.relevant = message["RelevantName"]
+        self.text = message["Text"]
+        self.time = message["SentDate"]
+    def __str__(self):
+        return f"{self.time} > {self.relevant}: {self.text}"
+    def __repr__(self):
+        return f"Message from {self.relevant}"
+
+client = Client("https://bakalari.gymso.cz/")
+
+
+# Msg = Message(json.loads(client.get_resource("api/3/komens/messages/received", method="post").text)["Messages"][0])
+
+# print(Msg)
+
+client.get_recievedMessages()
+print(client.messages)

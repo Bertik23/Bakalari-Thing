@@ -97,5 +97,10 @@ def getMarks():
     htmlMarks = clients[session["client"]].htmlMarks()
     return jsonify({"result": htmlMarks})
 
+@app.route("/getRecievedMessages")
+def getRecievedMessages():
+    clients[session["client"]].get_recievedMessages()
+    return jsonify({"result": clients[session["client"]].recievedMessages})
+
 if __name__ == "__main__":
     app.run()
