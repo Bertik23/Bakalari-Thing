@@ -63,6 +63,6 @@ function getRecievedMessages(){
             return response.json()
         })
         .then((myJson) => {
-            document.getElementById("messages").innerHTML. myJson.result;
+            document.getElementById("messages").innerHTML = myJson.result;
         })
 }

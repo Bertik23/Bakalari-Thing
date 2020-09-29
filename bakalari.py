@@ -31,9 +31,15 @@ class Client:
 
     def get_recievedMessages(self):
         self.recievedMessages = []
-        messages = json.loads(client.get_resource("api/3/komens/messages/received", method="post").text)["Messages"]
+        messages = json.loads(self.get_resource("api/3/komens/messages/received", method="post").text)["Messages"]
         for m in messages:
             self.recievedMessages.append(Message(m))
+
+    def recievedMessagesHTML(self):
+        s = "<table>"
+        for m in self.recievedMessages:
+            s += f'<tr title="Send {m.time}"><td>{m.relevant}</td><td>{m.text}</td><tr>'
+        return s
 
     def get_substitutions(self):
         substitutions = json.loads(self.get_resource("api/3/substitutions").text)
@@ -123,46 +129,52 @@ class Timetable:
         tableHtml.append("</tr>")
 
         for i, day in enumerate(self.timetable):
-            row = [[] for j in range(int(fieldnames[i][-1])+1)]
-            row[0] = day[0]
-            for hI, h in enumerate(day[1:]):
-                #print(int(h["Hour"]["Caption"]), row)
-                row[int(h["Hour"]["Caption"])].extend([h["Subject"]["Name"] if h["Subject"] is not None else "", h["Teacher"]["Name"] if h["Teacher"] is not None else "", h["Room"]["Abbrev"] if h["Room"] is not None else ""])
-            #print(row)
+            try:
+                row = [[] for j in range(int(fieldnames[i][-1])+1)]
+                row[0] = "Po" if day[0] == 1 else "Út" if day[0] == 2 else "St" if day[0] == 3 else "Čt" if day[0] == 4 else "Pá" if day[0] == 5 else "Nic"
+                for hI, h in enumerate(day[1:]):
+                    #print(int(h["Hour"]["Caption"]), row)
+                    row[int(h["Hour"]["Caption"])].extend([h["Subject"]["Name"] if h["Subject"] is not None else "", h["Teacher"]["Name"] if h["Teacher"] is not None else "", h["Room"]["Abbrev"] if h["Room"] is not None else ""])
+                print(row)
 
-            tableHtml.append(f'<tr class="day{day[0]}">')
-            for r in row:
+                tableHtml.append(f'<tr class="day{day[0]}">')
+                for r in row:
+                    if type(r) == str:
+                        tableHtml.append(f"<td>{r}</td>")
+                        continue
 
-                tableHtml.append("<td>")
-                try:
-                    tableHtml.append('<table class="hour withoutOuterBorder">')
-                    for r_ in r:
-                        if r_ == "":
-                            continue
-                        tableHtml.append("<tr><td>")
-                        tableHtml.append(r_)
-                        tableHtml.append("</td></tr>")
-                    tableHtml.append("</table>")
-                    # if "".join(tableHtml[-((len(r)*3)+2):]) == f"<table>{'<tr><td></td></tr>'*len(r)}</table>":
-                    #     print("ahoj")
-                    #     for _ in range(len(r)*3+2):
-                    #         print(tableHtml.pop())
-                    #         #tableHtml.append("")
-                    if "".join(tableHtml[-2:]) == "<table class=hour withoutOuterBorder></table>":
-                        #print("ahoj")
-                        for _ in range(2):
-                            tableHtml.pop()
-                            #tableHtml.append("")
-                except Exception as e:
-                    tableHtml.pop()
-                    tableHtml.pop()
-                    tableHtml.append('<td class="day">')
-                    tableHtml.append(r)
-                    #print(e)
+                    tableHtml.append("<td>")
+                    try:
+                        tableHtml.append('<table class="hour withoutOuterBorder">')
+                        for r_ in r:
+                            if r_ == "":
+                                continue
+                            tableHtml.append("<tr><td>")
+                            tableHtml.append(r_)
+                            tableHtml.append("</td></tr>")
+                        tableHtml.append("</table>")
+                        # if "".join(tableHtml[-((len(r)*3)+2):]) == f"<table>{'<tr><td></td></tr>'*len(r)}</table>":
+                        #     print("ahoj")
+                        #     for _ in range(len(r)*3+2):
+                        #         print(tableHtml.pop())
+                        #         #tableHtml.append("")
+                        if "".join(tableHtml[-2:]) == "<table class=hour withoutOuterBorder></table>":
+                            #print("ahoj")
+                            for _ in range(2):
+                                tableHtml.pop()
+                                #tableHtml.append("")
+                    except Exception as e:
+                        tableHtml.pop()
+                        tableHtml.pop()
+                        tableHtml.append('<td class="day">')
+                        tableHtml.append(r)
+                        #print(e)
 
-                tableHtml.append("</td>")
-                
-            tableHtml.append("</tr>")
+                    tableHtml.append("</td>")
+                    
+                tableHtml.append("</tr>")
+            except:
+                pass
 
         tableHtml.append("</table>")
 
@@ -178,13 +190,3 @@ class Message:
         return f"{self.time} > {self.relevant}: {self.text}"
     def __repr__(self):
         return f"Message from {self.relevant}"
-
-client = Client("https://bakalari.gymso.cz/")
-
-
-# Msg = Message(json.loads(client.get_resource("api/3/komens/messages/received", method="post").text)["Messages"][0])
-
-# print(Msg)
-
-client.get_recievedMessages()
-print(client.messages)

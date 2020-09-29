@@ -61,6 +61,16 @@ def marks():
         #return statusCode
         abort(401)
 
+@app.route("/messages")
+def messages():
+    try:
+        clients[session["client"]].get_recievedMessages()
+        return render_template('messages.html', isHeader=True)
+    except (AttributeError, KeyError):
+        #statusCode = Response(status=401)
+        #return statusCode
+        abort(401)    
+
 @app.route("/test")
 def test():
     return render_template('test.html')
@@ -100,7 +110,7 @@ def getMarks():
 @app.route("/getRecievedMessages")
 def getRecievedMessages():
     clients[session["client"]].get_recievedMessages()
-    return jsonify({"result": clients[session["client"]].recievedMessages})
+    return jsonify({"result": clients[session["client"]].recievedMessagesHTML()})
 
 if __name__ == "__main__":
     app.run()
