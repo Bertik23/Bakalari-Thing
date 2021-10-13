@@ -10,7 +10,7 @@ from datetime import datetime
 import random
 import bakalari
 
-schoolURL = "https://bakalari.gymso.cz/"
+schoolURL = "https://bakalari.gymso.eu/"
 
 
 #response = requests.post("https://bakalari.gymso.cz/api/login",data={"client_id":"ANDR","grant_type":"password","username":username,"password":password},headers={"Content-Type": "application/x-www-form-urlencoded"})
